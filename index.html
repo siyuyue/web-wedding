@@ -1,1 +1,56 @@
-Hello World!
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Di and Siyu</title>
+  <meta name="author" content="Di and Siyu">
+  <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+  <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+  <style type="text/css"> 
+  /* Animation */
+  @keyframes grayout {
+    from {opacity: 0;}
+    to {opacity: 0.4;}
+  }
+
+  .bg {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+	
+    /* Preserve aspet ratio */
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  .valign {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 100px;
+    color: #FFFFCC
+  }
+
+  #wrapper {
+    opacity: 0.4;
+    background-color: #FFF;
+    animation-name: grayout;
+    animation-duration: 1s;
+  }
+  </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <img src="bg1.jpg" class="bg" alt=""/>
+    </div>
+    <div class="bg">
+      <div class="valign" id="title">In Preparation</div>
+    </div>
+  </body>
+</html>
