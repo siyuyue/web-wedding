@@ -8,12 +8,13 @@
   <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
   <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
   <style type="text/css"> 
-  /* Animation */
-  @keyframes grayout {
-    from {opacity: 0;}
-    to {opacity: 0.4;}
+  body {
+	background-image: url("bg1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat-y;
+    background-attachment: fixed;
   }
-
+  
   .bg {
     position: fixed; 
     top: 0; 
@@ -32,25 +33,16 @@
   }
 
   #title {
+    text-align: center;
     font-family: 'Dancing Script', cursive;
-    font-size: 100px;
+    font-size: 80px;
     color: #FFFFCC
-  }
-
-  #wrapper {
-    opacity: 0.4;
-    background-color: #FFF;
-    animation-name: grayout;
-    animation-duration: 1s;
   }
   </style>
   </head>
   <body>
-    <div id="wrapper">
-      <img src="bg1.jpg" class="bg" alt=""/>
-    </div>
-    <div class="bg">
-      <div class="valign" id="title">In Preparation</div>
+    <div>
+      <div class="valign" id="title"><p>Di & Siyu</p><p>Palos Verdes Estates, CA</p><p>Aug. 19, 2017</p></div>
     </div>
   </body>
 </html>
