@@ -5,44 +5,97 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Di and Siyu</title>
   <meta name="author" content="Di and Siyu">
-  <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Source+Sans+Pro" rel="stylesheet">
   <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+  <link rel="stylesheet" type="text/css" href="fullpage.js/jquery.fullPage.css" />
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type="text/javascript" src="fullpage.js/jquery.fullPage.js"></script>
+  
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#fullpage').fullpage({
+	    //Navigation
+        menu: '#menu',
+        anchors: ['welcome', 'weddingDay'],
+        navigation: false,
+		
+		verticalCentered: true,
+		sectionsColor: ['', '#FFDAB9'],
+	  });
+    });
+  </script>
+
   <style type="text/css"> 
   body {
 	background-image: url("bg1.jpg");
     background-size: cover;
-    background-repeat: no-repeat-y;
     background-attachment: fixed;
   }
   
-  .bg {
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-	
-    /* Preserve aspet ratio */
-    min-width: 100%;
-    min-height: 100%;
+  #menu {
+    top: 0;
+    left: 0px;
+	margin: 0;
+	height: 60px;
+	width: 100%;
+	z-index: 9999;
+	position:fixed;
+	float: right;
   }
-
-  .valign {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  
+  #menu li {
+    line-height: 60px;
+    display: inline;
+	padding-right: 30px;
+	font-size: 20px;
+	font-family: 'Source Sans Pro', sans-serif;
   }
-
-  #title {
+  
+  #menu a {
+    text-decoration: none;
+	color: #800020;
+  }
+  
+  .title {
     text-align: center;
     font-family: 'Dancing Script', cursive;
     font-size: 80px;
-    color: #FFFFCC
+	font-weight: bold;
   }
+  
+  .dark {
+    color: #333333;
+  }
+  
+  .light {
+  
+  }
+  
+  .white-overlay {
+    position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: #FFFFCC;
+	opacity: 0.4;
+  }
+  
   </style>
   </head>
   <body>
-    <div>
-      <div class="valign" id="title"><p>Di & Siyu</p><p>Palos Verdes Estates, CA</p><p>Aug. 19, 2017</p></div>
+	<ul id="menu">
+	  <li data-menuanchor="welcome" class="active"><a href="#welcome">WELCOME</a></li>
+	  <li data-menuanchor="weddingDay"><a href="#weddingDay">WEDDING DAY</a></li>
+	</ul>
+    <div class="white-overlay">
+	</div>
+	<div id="fullpage">
+      <div class="section title dark">
+	    <p>Di & Siyu</p>
+	  </div>
+      <div class="section title">
+	    <p>Palos Verdes Estates, CA</p><p>Aug. 19, 2017</p>
+	  </div>
     </div>
   </body>
 </html>
