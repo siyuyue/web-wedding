@@ -8,86 +8,14 @@
   <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Source+Sans+Pro" rel="stylesheet">
   <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
   <link rel="stylesheet" type="text/css" href="fullpage.js/jquery.fullPage.css" />
-  <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="wedding.css"/>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script type="text/javascript" src="fullpage.js/jquery.fullPage.js"></script>
+  <script type="text/javascript" src="wedding.js"></script>
   
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#fullpage').fullpage({
-	    //Navigation
-        menu: '#menu',
-        anchors: ['welcome', 'weddingDay'],
-        navigation: false,
-		
-		verticalCentered: true,
-		sectionsColor: ['', '#FFFFFF', '#333333'],
-	  });
-    });
-  </script>
-
-  <style type="text/css"> 
-  body {
-	background-image: url("bg1.jpg");
-    background-size: cover;
-    background-attachment: fixed;
-  }
-  
-  .title {
-    text-align: center;
-    font-family: 'Dancing Script', cursive;
-    font-size: 80px;
-	font-weight: bold;
-  }
-  
-  .dark {
-    color: #333333;
-  }
-  
-  .light {
-  
-  }
-  
-  .white-overlay {
-    position: fixed;
-	width: 100%;
-	height: 100%;
-	background-color: #FFFFCC;
-	opacity: 0.6;
-  }
-  
-  #monogram {
-    width: 534px;
-	height: 411px;
-    max-width: 80%;
-	max-height: 80%;
-	object-fit: contain;
-  }
-  
-  #neighbourhood {
-    background-image:url('neighbourhood.jpg');
-    position:relative;
-    width: 100%;
-    height: 100%;
-    
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: cover;  
-  }
-  
-  .container-fluid {
-    padding-left: 0;
-	padding-right: 0;
-  }
-  
-  .no-middle-align .fp-tableCell {
-    vertical-align: top;
-  }
-  
-  </style>
   </head>
   <body>
 	 <nav class="navbar navbar-fixed-top navbar-inverse">
@@ -102,8 +30,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul id="menu" class="nav navbar-nav">
-            <li data-menuanchor="welcome" class="active"><a href="#welcome">Welcome</a></li>
+            <li data-menuanchor="welcome"><a href="#welcome">Welcome</a></li>
             <li data-menuanchor="weddingDay"><a href="#weddingDay">Wedding Day</a></li>
+			<li data-menuanchor="gifts"><a href="#gifts">Gifts</a></li>
+			<li data-menuanchor="rsvp"><a href="#rsvp">RSVP</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
@@ -121,15 +51,62 @@
 		<div class="row-fluid" style="height:40%;">
 		  <div class="col-xs-6 text-center">
 		    <h2>Ceremony</h2>
-			<h4>The Neighbourhood Church</h4>
+			<p>The Neighbourhood Church</p>
 		  </div>
 		  <div class="col-xs-6 text-center">
 		    <h2>Reception</h2>
-			<h4>Palos Verdes Golf Club</h4>
+			<p>Palos Verdes Golf Club</p>
 		  </div>
 		</div>
 	  </div>
 	  <div class="container-fluid section">
+	    <div class="row-fluid">
+	      <div class="col-xs-12 text-center">
+		    <h1>Gifts</h1>
+			<p1>We prefer red envelopes :)</p1>
+		  </div>
+		</div>
+	  </div>
+	  <div class="container-fluid section">
+		<div class="col-md-4 col-md-offset-4">
+		  <form>
+		    <div class="row">
+		    <div class="col-xs-6">
+		      <div class="form-group">
+		        <label for="exampleInputEmail1">First Name</label>
+		        <input type="" class="form-control" id="" placeholder="">
+		      </div>
+			</div>
+			<div class="col-xs-6">
+			  <div class="form-group">
+		        <label for="exampleInputEmail1">Last Name</label>
+		        <input type="" class="form-control" id="" placeholder="">
+		      </div>
+			</div>
+			</div>
+		    <div class="form-group">
+		      <label for="exampleInputEmail1">Email address</label>
+		      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+		    </div>
+            <div class="form-group">
+		      <label for="exampleInputEmail1">Number of guests you are bringing?</label>
+		      <input type="" class="form-control" id="" placeholder="">
+		    </div>
+			<div class="form-group">
+		      <label for="exampleInputEmail1">Will you be staying at the hotel?</label>
+		      <input type="" class="form-control" id="" placeholder="">
+		    </div>
+			<div class="form-group">
+			  <label>Choice of Entrée</label>
+			  <select class="form-control">
+                <option>Beef</option>
+                <option>Cod</option>
+                <option>Veggie</option>
+              </select>
+			</div>
+		    <button type="submit" class="btn btn-default btn-lg btn-block">RSVP</button>
+		  </form>
+		</div>
 	  </div>
     </div>
   </body>
