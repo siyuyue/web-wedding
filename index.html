@@ -51,11 +51,20 @@
 		<div class="row-fluid" style="height:40%;">
 		  <div class="col-xs-6 text-center">
 		    <h2>Ceremony</h2>
-			<p>The Neighbourhood Church</p>
+			<h4>Neighborhood Church</h4>
+			<p><em>415 Paseo Del Mar, Palos Verdes Peninsula, CA 90274</em></p>
+			<p>CEREMONY - 4PM</p>
+			<p>Dress Code: Semi-Formal</p>
+			<p>Ladies: please avoid wearing large blocks of white or bright red color</p>
 		  </div>
 		  <div class="col-xs-6 text-center">
 		    <h2>Reception</h2>
-			<p>Palos Verdes Golf Club</p>
+			<h4>Palos Verdes Golf Club</h4>
+			<p><em>3301 Vía Campesina, Palos Verdes Estates, CA 90274</em></p>
+			<p>COCKTAIL HOUR - 5:30PM</p>
+			<p>RECEPTION - 6:30PM</p>
+			<p>DANCING PARTY - 8:00PM</p>
+			<p>Enjoy the food and party!</p>
 		  </div>
 		</div>
 	  </div>
@@ -63,35 +72,55 @@
 	    <div class="row-fluid">
 	      <div class="col-xs-12 text-center">
 		    <h1>Gifts</h1>
-			<p1>We prefer red envelopes :)</p1>
+			<h4>We prefer red envelopes :)</h4>
 		  </div>
 		</div>
 	  </div>
 	  <div class="container-fluid section">
 		<div class="col-md-4 col-md-offset-4">
-		  <form>
+		  <form id="rsvp-form">
 		    <div class="row">
-		    <div class="col-xs-6">
-		      <div class="form-group">
-		        <label for="exampleInputEmail1">First Name</label>
-		        <input type="" class="form-control" id="" placeholder="">
-		      </div>
-			</div>
-			<div class="col-xs-6">
-			  <div class="form-group">
-		        <label for="exampleInputEmail1">Last Name</label>
-		        <input type="" class="form-control" id="" placeholder="">
-		      </div>
-			</div>
+		      <div class="col-xs-6">
+		        <div class="form-group">
+		          <label for="exampleInputEmail1">First Name</label>
+		          <input type="" class="form-control" id="" placeholder="">
+		        </div>
+			  </div>
+			  <div class="col-xs-6">
+			    <div class="form-group">
+		          <label for="exampleInputEmail1">Last Name</label>
+		          <input type="" class="form-control" id="" placeholder="">
+		        </div>
+			  </div>
 			</div>
 		    <div class="form-group">
 		      <label for="exampleInputEmail1">Email address</label>
 		      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
 		    </div>
-            <div class="form-group">
-		      <label for="exampleInputEmail1">Number of guests you are bringing?</label>
-		      <input type="" class="form-control" id="" placeholder="">
-		    </div>
+			<div class="row">
+			  <div class="col-xs-12">
+			    <label>Number of guests you are bringing?</label>
+			  </div>
+		      <div class="col-xs-6">
+				<div class="form-group">
+				  <label>Adults</label>
+				  <select class="form-control" id="guest-adult">
+					<option value=0>0</option>
+					<option value=1>1</option>
+				  </select>
+				</div>
+			  </div>
+			  <div class="col-xs-6">
+			    <div class="form-group">
+				  <label>Children</label>
+				  <select class="form-control" id="guest-child">
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+				  </select>
+				</div>
+			  </div>
+			</div>
 			<div class="form-group">
 		      <label for="exampleInputEmail1">Will you be staying at the hotel?</label>
 		      <input type="" class="form-control" id="" placeholder="">
@@ -103,6 +132,60 @@
                 <option>Cod</option>
                 <option>Veggie</option>
               </select>
+			</div>
+			<div class="row" id="guests-adult-entry">
+<div class="col-xs-12">
+<label>Adult Guest</label>
+</div>		
+<div class="col-xs-4">
+<div class="form-group">
+<label>First Name</label>
+<input type="" class="form-control" id="" placeholder="">
+</div>
+</div>
+<div class="col-xs-4">
+<div class="form-group">
+<label>Last Name</label>
+<input type="" class="form-control" id="" placeholder="">
+</div>
+</div>
+<div class="col-xs-4">
+<div class="form-group">
+<label>Entrée</label>
+<select class="form-control">
+<option>Beef</option>
+<option>Cod</option>
+<option>Veggie</option>
+</select>
+</div>
+</div>
+			</div>
+			<div class="row" id="guests-child-entry">
+<div class="col-xs-12">
+<label>Child Guest</label>
+</div>		
+<div class="col-xs-4">
+<div class="form-group">
+<label>First Name</label>
+<input type="" class="form-control" id="" placeholder="">
+</div>
+</div>
+<div class="col-xs-4">
+<div class="form-group">
+<label>Last Name</label>
+<input type="" class="form-control" id="" placeholder="">
+</div>
+</div>
+<div class="col-xs-4">
+<div class="form-group">
+<label>Entrée</label>
+<select class="form-control">
+<option>Beef</option>
+<option>Cod</option>
+<option>Veggie</option>
+</select>
+</div>
+</div>
 			</div>
 		    <button type="submit" class="btn btn-default btn-lg btn-block">RSVP</button>
 		  </form>
