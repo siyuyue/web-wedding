@@ -1,6 +1,3 @@
-adult_entry = "<div class=\"col-xs-12\">\r\n<label>Adult Guest<\/label>\r\n<\/div>\t\t\r\n<div class=\"col-xs-4\">\r\n<div class=\"form-group\">\r\n<label>First Name<\/label>\r\n<input type=\"\" class=\"form-control\" id=\"\" placeholder=\"\">\r\n<\/div>\r\n<\/div>\r\n<div class=\"col-xs-4\">\r\n<div class=\"form-group\">\r\n<label>Last Name<\/label>\r\n<input type=\"\" class=\"form-control\" id=\"\" placeholder=\"\">\r\n<\/div>\r\n<\/div>\r\n<div class=\"col-xs-4\">\r\n<div class=\"form-group\">\r\n<label>Entr\u00E9e<\/label>\r\n<select class=\"form-control\">\r\n<option>Beef<\/option>\r\n<option>Cod<\/option>\r\n<option>Veggie<\/option>\r\n<\/select>\r\n<\/div>\r\n<\/div>"
-child_entry = "<div class=\"col-xs-12\">\r\n<label>Child Guest<\/label>\r\n<\/div>\t\t\r\n<div class=\"col-xs-4\">\r\n<div class=\"form-group\">\r\n<label>First Name<\/label>\r\n<input type=\"\" class=\"form-control\" id=\"\" placeholder=\"\">\r\n<\/div>\r\n<\/div>\r\n<div class=\"col-xs-4\">\r\n<div class=\"form-group\">\r\n<label>Last Name<\/label>\r\n<input type=\"\" class=\"form-control\" id=\"\" placeholder=\"\">\r\n<\/div>\r\n<\/div>\r\n<div class=\"col-xs-4\">\r\n<div class=\"form-group\">\r\n<label>Entr\u00E9e<\/label>\r\n<select class=\"form-control\">\r\n<option>Beef<\/option>\r\n<option>Cod<\/option>\r\n<option>Veggie<\/option>\r\n<\/select>\r\n<\/div>\r\n<\/div>"
-
 $(document).ready(function() {
   $('#fullpage').fullpage({
 	//Navigation
@@ -11,22 +8,33 @@ $(document).ready(function() {
 	verticalCentered: true,
 	sectionsColor: ['', '#FFFFFF', '#FFFFF0', '#F5F5DC'],
   });
+  
+  var adult_entry = $("#guests-adult-entry .entry")
+  var child_entry = $("#guests-child-entry .entry")
+  var adult_entry_header = $("#guests-adult-entry .entry-header")
+  var child_entry_header = $("#guests-child-entry .entry-header")
   $("#guests-adult-entry").empty();
   $("#guests-child-entry").empty();
 
   $("#rsvp-form #guest-adult").change(function() {
 	  var adults_count = $("#guest-adult").val();
 	  $("#guests-adult-entry").empty();
+	  if (adults_count > 0) {
+		  $("#guests-adult-entry").append(adult_entry_header)
+	  }
 	  for (var i = 0; i < adults_count; i++) {
-		  $("#guests-adult-entry").append(adult_entry);
+		  $("#guests-adult-entry").append(adult_entry.clone());
 	  }  
   })
   
   $("#rsvp-form #guest-child").change(function() {
-	  var adults_count = $("#guest-child").val();
+	  var children_count = $("#guest-child").val();
 	  $("#guests-child-entry").empty();
-	  for (var i = 0; i < adults_count; i++) {
-		  $("#guests-child-entry").append(child_entry);
+	  if (children_count > 0) {
+		  $("#guests-child-entry").append(child_entry_header)
+	  }
+	  for (var i = 0; i < children_count; i++) {
+		  $("#guests-child-entry").append(child_entry.clone());
 	  }  
   })
 });
