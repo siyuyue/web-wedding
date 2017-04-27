@@ -37,4 +37,10 @@ $(document).ready(function() {
 		  $("#guests-child-entry").append(child_entry.clone());
 	  }  
   })
+  
+  $("#rsvp-form").submit(function() {
+	$.post("/rsvp", function(response) {
+	  alert(response);
+	});
+  })
 });
