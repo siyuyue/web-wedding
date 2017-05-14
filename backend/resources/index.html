@@ -88,19 +88,19 @@
 		      <div class="col-xs-6">
 		        <div class="form-group">
 		          <label>First Name</label>
-		          <input type="" class="form-control" id="" placeholder="">
+		          <input type="text" class="form-control" name="firstName" placeholder="">
 		        </div>
 			  </div>
 			  <div class="col-xs-6">
 			    <div class="form-group">
 		          <label>Last Name</label>
-		          <input type="" class="form-control" id="" placeholder="">
+		          <input type="text" class="form-control" name="lastName" placeholder="">
 		        </div>
 			  </div>
 			</div>
 		    <div class="form-group">
 		      <label>Email address</label>
-		      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+		      <input type="email" class="form-control" name="email" placeholder="Email">
 		    </div>
 			<div class="row">
 			  <div class="col-xs-12">
@@ -109,7 +109,7 @@
 		      <div class="col-xs-6">
 				<div class="form-group">
 				  <label>Adults</label>
-				  <select class="form-control" id="guest-adult">
+				  <select class="form-control" name="adultCount" id="guest-adult">
 					<option value=0>0</option>
 					<option value=1>1</option>
 				  </select>
@@ -118,7 +118,7 @@
 			  <div class="col-xs-6">
 			    <div class="form-group">
 				  <label>Children</label>
-				  <select class="form-control" id="guest-child">
+				  <select class="form-control" name="childCount" id="guest-child">
 					<option value=0>0</option>
 					<option value=1>1</option>
 					<option value=2>2</option>
@@ -128,11 +128,14 @@
 			</div>
 			<div class="form-group">
 		      <label>Will you be staying at the hotel?</label>
-		      <input type="" class="form-control" id="" placeholder="">
+		      <select class="form-control" name="hotel">
+				<option value=false>NO</option>
+				<option value=true>YES</option>
+			  </select>
 		    </div>
 			<div class="form-group">
 			  <label>Choice of Entrée</label>
-			  <select class="form-control">
+			  <select class="form-control" name="entree">
                 <option>Beef</option>
                 <option>Cod</option>
                 <option>Veggie</option>
@@ -163,17 +166,17 @@
 <div class="entry">
 <div class="col-xs-4">
 <div class="form-group">
-<input type="" class="form-control" id="" placeholder="">
+<input type="" class="form-control" name="guestAdultFirstName" placeholder="">
 </div>
 </div>
 <div class="col-xs-4">
 <div class="form-group">
-<input type="" class="form-control" id="" placeholder="">
+<input type="" class="form-control" name="guestAdultLastName" placeholder="">
 </div>
 </div>
 <div class="col-xs-4">
 <div class="form-group">
-<select class="form-control">
+<select class="form-control" name="guestAdultEntree">
 <option>Beef</option>
 <option>Cod</option>
 <option>Veggie</option>
@@ -207,17 +210,17 @@
 <div class="entry">
 <div class="col-xs-4">
 <div class="form-group">
-<input type="" class="form-control" id="" placeholder="">
+<input type="" class="form-control" name="guestChildFirstName" placeholder="">
 </div>
 </div>
 <div class="col-xs-4">
 <div class="form-group">
-<input type="" class="form-control" id="" placeholder="">
+<input type="" class="form-control" name="guestChildLastName" placeholder="">
 </div>
 </div>
 <div class="col-xs-4">
 <div class="form-group">
-<select class="form-control">
+<select class="form-control" name="guestChildEntree">
 <option>Beef</option>
 <option>Cod</option>
 <option>Veggie</option>
@@ -226,6 +229,10 @@
 </div>
 </div>
 			</div>
+			<div class="form-group">
+		      <label>RSVP Code</label>
+		      <input type="" class="form-control" name="rsvpCode" placeholder="">
+		    </div>
 		    <button type="submit" class="btn btn-default btn-lg btn-block">RSVP</button>
 		  </form>
 		</div>

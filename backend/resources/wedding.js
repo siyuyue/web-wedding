@@ -23,7 +23,11 @@ $(document).ready(function() {
 		  $("#guests-adult-entry").append(adult_entry_header)
 	  }
 	  for (var i = 0; i < adults_count; i++) {
-		  $("#guests-adult-entry").append(adult_entry.clone());
+		  var adult_entry_clone = adult_entry.clone()
+		  adult_entry_clone.find("[name='guestAdultFirstName']").attr("name","guestAdultFirstName" + i)
+		  adult_entry_clone.find("[name='guestAdultLastName']").attr("name","guestAdultLastName" + i)
+		  adult_entry_clone.find("[name='guestAdultEntree']").attr("name","guestAdultEntree" + i)
+		  $("#guests-adult-entry").append(adult_entry_clone);
 	  }  
   })
   
@@ -34,12 +38,17 @@ $(document).ready(function() {
 		  $("#guests-child-entry").append(child_entry_header)
 	  }
 	  for (var i = 0; i < children_count; i++) {
-		  $("#guests-child-entry").append(child_entry.clone());
+		  var child_entry_clone = child_entry.clone()
+		  child_entry_clone.find("[name='guestChildFirstName']").attr("name","guestChildFirstName" + i)
+		  child_entry_clone.find("[name='guestChildLastName']").attr("name","guestChildLastName" + i)
+		  child_entry_clone.find("[name='guestChildEntree']").attr("name","guestChildEntree" + i)
+		  $("#guests-child-entry").append(child_entry_clone);
 	  }  
   })
   
-  $("#rsvp-form").submit(function() {
-	$.post("/rsvp", function(response) {
+  $("#rsvp-form").submit(function(e) {
+	  e.preventDefault();
+	  $.post("/rsvp", $("#rsvp-form").serialize(), function(response) {
 	  alert(response);
 	});
   })
