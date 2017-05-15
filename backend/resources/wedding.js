@@ -4,6 +4,7 @@ $(document).ready(function() {
         menu: '#menu',
         anchors: ['welcome', 'weddingDay', 'gifts', 'rsvp'],
         navigation: false,
+        scrollOverflow: true,
 
         verticalCentered: true,
         sectionsColor: ['', '#FFFFFF', '#FFFFF0', '#F5F5DC'],
@@ -29,6 +30,7 @@ $(document).ready(function() {
             adult_entry_clone.find("[name='guestAdultEntree']").attr("name", "guestAdultEntree" + i)
             $("#guests-adult-entry").append(adult_entry_clone);
         }
+		$.fn.fullpage.reBuild();
     })
 
     $("#rsvp-form #guest-child").change(function() {
@@ -44,6 +46,7 @@ $(document).ready(function() {
             child_entry_clone.find("[name='guestChildEntree']").attr("name", "guestChildEntree" + i)
             $("#guests-child-entry").append(child_entry_clone);
         }
+		$.fn.fullpage.reBuild();
     })
 
     $("#rsvp-form").submit(function(e) {
