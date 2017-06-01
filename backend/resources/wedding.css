@@ -86,3 +86,7 @@
   .no-middle-align .fp-tableCell {
     vertical-align: top;
   }
+  
+  #error {
+    color: red;
+  }
