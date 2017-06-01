@@ -55,9 +55,9 @@
                   <h2>Ceremony</h2>
                   <h4><strong>Neighborhood Church</strong></h4>
                   <p><em>415 Paseo Del Mar, Palos Verdes Peninsula, CA 90274</em></p>
-                  <p>CEREMONY - 4PM</p>
-                  <p>Dress Code: Semi-Formal</p>
-                  <p><strong>Ladies: please avoid wearing large blocks of white or bright red color</strong></p>
+                  <h4><strong>CEREMONY - 4PM</strong></h4>
+                  <p><strong>Dress Code: Semi-Formal</strong></p>
+                  <p>Ladies: please avoid wearing large blocks of white or bright red color</p>
                </div>
                <div class="col-xs-6 text-center">
                   <h2>Reception</h2>
@@ -83,16 +83,14 @@
             <div class="row-fluid">
                <div class="col-xs-12 text-center" style="padding-top: 40px;">
                   <h3>We don't expect you to bring us gifts – your presence at the wedding is enough!</h3>
-                  <h4>If you really want to give us something, a contribution to our new home fund would be awesome.</h4>
-                  <h4>- 1 -</h4>
-                  <p>Hand-deliver a cheque or a red pocket to us at the wedding.</p>
-                  <h4>- 2 -</h4>
-                  <p>Our wedding registry <a href="https://www.amazon.com/wedding/di-zhu-siyu-yue-rancho-palos-verdes-september-2017/registry/VTHCYFFTFQUH">here</a></p>
+                  <h4>If you really want to give us something, a contribution to our new home fund would be awesome. Here's how:</h4>
+                  <p>1) Hand-deliver a cheque or a red pocket to us at the wedding.</p>
+                  <p>2) Venmo, BoA\Chase Quickpay, or other electronic payment method.</p>
                </div>
             </div>
          </div>
          <div class="container-fluid section fp-auto-height-responsive">
-            <div class="col-md-4 col-md-offset-4" style="margin-top:100px;margin-bottom:20px;">
+            <div id="rsvp-container" class="col-md-4 col-md-offset-4" style="margin-top:100px;margin-bottom:20px;">
                <form id="rsvp-form">
                   <div class="row">
                      <div class="col-xs-6">
@@ -114,7 +112,7 @@
                   </div>
                   <div class="row">
                      <div class="col-xs-12">
-                        <label>Number of guests you are bringing?</label>
+                        <label>How many guests are coming with you?</label>
                      </div>
                      <div class="col-xs-6">
                         <div class="form-group">
@@ -147,7 +145,7 @@
                      <label>Choice of Entrée</label>
                      <select class="form-control" name="entree">
                         <option>Beef</option>
-                        <option>Cod</option>
+                        <option>Fish</option>
                         <option>Veggie</option>
                      </select>
                   </div>
@@ -187,7 +185,7 @@
                            <div class="form-group">
                               <select class="form-control" name="guestAdultEntree">
                                  <option>Beef</option>
-                                 <option>Cod</option>
+                                 <option>Fish</option>
                                  <option>Veggie</option>
                               </select>
                            </div>
@@ -229,8 +227,7 @@
                         <div class="col-xs-4">
                            <div class="form-group">
                               <select class="form-control" name="guestChildEntree">
-                                 <option>Beef</option>
-                                 <option>Cod</option>
+                                 <option>Chicken</option>
                                  <option>Veggie</option>
                               </select>
                            </div>
@@ -241,6 +238,8 @@
                      <label>RSVP Code</label>
                      <input type="" class="form-control" name="rsvpCode" placeholder="">
                   </div>
+				  <div id="error">
+				  </div>
                   <button type="submit" class="btn btn-default btn-lg btn-block">RSVP</button>
                </form>
             </div>

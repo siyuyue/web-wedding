@@ -4,6 +4,7 @@ import (
 	"appengine"
 	"appengine/datastore"
 	"appengine/mail"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -109,6 +110,19 @@ func init() {
 	http.HandleFunc("/rsvp", handler)
 }
 
+type Response struct {
+    Success bool   `json:"success"`
+	Message string `json:"message"`
+}
+
+func respond(w http.ResponseWriter, success bool, message string) {
+    resp := &Response{
+	    Success: success,
+		Message: message}
+	jsonString, _ := json.Marshal(resp)
+	fmt.Fprintf(w, string(jsonString))
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	// Load value from registry.
 	ctx := appengine.NewContext(r)
@@ -116,11 +130,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	var rsvpRegistry EnableRSVP
 	if e := datastore.Get(ctx, keyRSVP, &rsvpRegistry); e != nil {
 		ctx.Errorf("%s\n", e)
-		fmt.Fprintf(w, "Oops, something went wrong.")
+		respond(w, false, "Oops, something went wrong.")
 		return
 	}
 	if !rsvpRegistry.Enable {
-		fmt.Fprintf(w, "Sorry! RSVP not open yet.")
+		respond(w, false, "Sorry! RSVP not open yet.")
 		return
 	}
 
@@ -129,19 +143,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	codeString := r.Form.Get("rsvpCode")
 	if codeString == "" {
 		ctx.Warningf("Request has no RSVP code.")
-		fmt.Fprintf(w, "Missing RSVP code\n")
+		respond(w, false, "Missing RSVP code\n")
 		return
 	}
 	keyCode := datastore.NewKey(ctx, "RSVPCode", codeString, 0, nil)
 	var code RSVPCode
 	if e := datastore.Get(ctx, keyCode, &code); e != nil {
 		ctx.Warningf("Request has wrong RSVP code.")
-		fmt.Fprintf(w, "Wrong code, please double check code in your RSVP email.\n")
+		respond(w, false, "Wrong code, please double check code in your RSVP email.\n")
 		return
 	}
 	if code.RemainingQuota <= 0 {
 		ctx.Warningf("Request has expired RSVP code.")
-		fmt.Fprintf(w, "Code has expired.\n")
+		respond(w, false, "Code has expired.\n")
 		return
 	}
 
@@ -156,7 +170,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Parse input form data.
 	g := new(GuestRSVP)
 	if e := g.parse(r.Form); e != nil {
-		fmt.Fprintf(w, "%s\n", e)
+		respond(w, false, fmt.Sprintf("%s\n", e))
 		return
 	}
 
@@ -164,7 +178,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	q := datastore.NewQuery(rsvpEntityName).Filter("Email =", g.Email).Limit(1).KeysOnly()
 	_, e := q.Run(ctx).Next(nil)
 	if e == nil {
-		fmt.Fprintf(w, "%s has already RSVP-ed", g.Email)
+		respond(w, false, fmt.Sprintf("%s has already RSVP-ed", g.Email))
 		return
 	}
 
@@ -172,7 +186,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	code.RemainingQuota--
 	if _, e := datastore.Put(ctx, keyCode, &code); e != nil {
 		ctx.Errorf("%s\n", e)
-		fmt.Fprintf(w, "Oops, something went wrong.")
+		respond(w, false, "Oops, something went wrong.")
 		return
 	}
 
@@ -180,7 +194,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	key := datastore.NewIncompleteKey(ctx, rsvpEntityName, nil)
 	if _, err := datastore.Put(ctx, key, g); err != nil {
 		ctx.Errorf("%s\n", e)
-		fmt.Fprintf(w, "Oops, something went wrong.")
+		respond(w, false, "Oops, something went wrong.")
 		return
 	}
 
@@ -189,7 +203,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		key := datastore.NewIncompleteKey(ctx, guestEntityName, nil)
 		if _, err := datastore.Put(ctx, key, &guest); err != nil {
 			ctx.Errorf("%s\n", e)
-			fmt.Fprintf(w, "Oops, something went wrong.")
+			respond(w, false, "Oops, something went wrong.")
 			return
 		}
 	}
@@ -203,8 +217,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := mail.Send(ctx, msg); err != nil {
 		ctx.Errorf("%s\n", e)
-		fmt.Fprintf(w, "Oops, something went wrong.")
+		respond(w, false, "Oops, something went wrong.")
 		return
 	}
-	fmt.Fprintf(w, "You've successfully rsvp-ed!")
+	respond(w, true, "You've successfully rsvp-ed!")
 }

@@ -52,7 +52,13 @@ $(document).ready(function() {
     $("#rsvp-form").submit(function(e) {
         e.preventDefault();
         $.post("/rsvp", $("#rsvp-form").serialize(), function(response) {
-            alert(response);
+			response = JSON.parse(response)
+			if (response["success"]) {
+				$("#rsvp-container").empty();
+				$("#rsvp-container").append("<div class=\"text-center\"><h2>" + response["message"] + "</h2></div>");
+			} else {
+				$("#error").text(response["message"]);
+			}
         });
     })
 });
