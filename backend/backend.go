@@ -129,7 +129,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	keyRSVP := datastore.NewKey(ctx, "AppRegistry", "EnableRSVP", 0, nil)
 	var rsvpRegistry EnableRSVP
 	if e := datastore.Get(ctx, keyRSVP, &rsvpRegistry); e != nil {
-		ctx.Errorf("%s\n", e)
+		ctx.Errorf("Failed to get EnableRSVP: %s\n", e)
 		respond(w, false, "Oops, something went wrong.")
 		return
 	}
@@ -176,8 +176,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if email has already RSVP-ed.
 	q := datastore.NewQuery(rsvpEntityName).Filter("Email =", g.Email).Limit(1).KeysOnly()
-	_, e := q.Run(ctx).Next(nil)
-	if e == nil {
+	if _, e := q.Run(ctx).Next(nil); e == nil {
 		respond(w, false, fmt.Sprintf("%s has already RSVP-ed", g.Email))
 		return
 	}
@@ -185,7 +184,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Decrement Quota
 	code.RemainingQuota--
 	if _, e := datastore.Put(ctx, keyCode, &code); e != nil {
-		ctx.Errorf("%s\n", e)
+		ctx.Errorf("Failed to write back to RSVPCode: %s\n", e)
 		respond(w, false, "Oops, something went wrong.")
 		return
 	}
@@ -193,7 +192,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	// Save RSVP entry
 	key := datastore.NewIncompleteKey(ctx, rsvpEntityName, nil)
 	if _, err := datastore.Put(ctx, key, g); err != nil {
-		ctx.Errorf("%s\n", e)
+		ctx.Errorf("Failed to write RSVPEntry: %s\n", err)
 		respond(w, false, "Oops, something went wrong.")
 		return
 	}
@@ -202,7 +201,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	for _, guest := range g.Guests {
 		key := datastore.NewIncompleteKey(ctx, guestEntityName, nil)
 		if _, err := datastore.Put(ctx, key, &guest); err != nil {
-			ctx.Errorf("%s\n", e)
+			ctx.Errorf("Failed to save guest: %s\n", err)
 			respond(w, false, "Oops, something went wrong.")
 			return
 		}
@@ -213,10 +212,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Sender:  "Di and Siyu Wedding <" + rsvpRegistry.Email + ">",
 		To:      []string{g.Email},
 		Subject: "You've Successfully RSVP-ed",
-		Body:    "Thanks for your RSVP!",
+		Body:    "Thank you for RSVP-ing, we look forward to seeing you on our wedding!",
 	}
 	if err := mail.Send(ctx, msg); err != nil {
-		ctx.Errorf("%s\n", e)
+		ctx.Errorf("Failed to send email: %s\n", err)
 		respond(w, false, "Oops, something went wrong.")
 		return
 	}
