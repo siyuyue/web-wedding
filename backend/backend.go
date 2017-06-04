@@ -211,8 +211,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	msg := &mail.Message{
 		Sender:  "Di and Siyu Wedding <" + rsvpRegistry.Email + ">",
 		To:      []string{g.Email},
-		Subject: "You've Successfully RSVP-ed",
-		Body:    "Thank you for RSVP-ing, we look forward to seeing you on our wedding!",
+		Subject: "Thank you for your RSVP to Di and Siyu's Wedding!",
+		Body:    "We look forward to seeing you on August 19, 2017.\n\nFor more information please see http://www.diandsiyu.wedding\n\nDi & Siyu",
 	}
 	if err := mail.Send(ctx, msg); err != nil {
 		ctx.Errorf("Failed to send email: %s\n", err)
