@@ -215,9 +215,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Body:    "We look forward to seeing you on August 19, 2017.\n\nFor more information please see http://www.diandsiyu.wedding\n\nDi & Siyu",
 	}
 	if err := mail.Send(ctx, msg); err != nil {
+		// Already succeeded, no need to show failure message.
 		ctx.Errorf("Failed to send email: %s\n", err)
-		respond(w, false, "Oops, something went wrong.")
-		return
 	}
 	respond(w, true, "You've successfully rsvp-ed!")
 }

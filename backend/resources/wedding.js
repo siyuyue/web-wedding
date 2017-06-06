@@ -8,6 +8,7 @@ $(document).ready(function() {
 
         verticalCentered: true,
         sectionsColor: ['', '#FFFFFF', '#FFFFF0', '#F5F5DC'],
+        recordHistory: false,
     });
 
     var adult_entry = $("#guests-adult-entry .entry")
