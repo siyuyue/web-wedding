@@ -29,6 +29,7 @@ type GuestRSVP struct {
 	ChildGuestCount int
 	Extra           string
 	Guests          []Guest `datastore:"-"`
+	ConfirmationSent bool
 }
 
 func (g *GuestRSVP) parse(formData url.Values) error {
@@ -108,6 +109,7 @@ type RSVPCode struct {
 
 func init() {
 	http.HandleFunc("/rsvp", handler)
+	http.HandleFunc("/admin/send_email", sendEmailHandler)
 }
 
 type Response struct {
@@ -219,4 +221,86 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		ctx.Errorf("Failed to send email: %s\n", err)
 	}
 	respond(w, true, "You've successfully rsvp-ed!")
+}
+
+func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	keyRSVP := datastore.NewKey(ctx, "AppRegistry", "EnableRSVP", 0, nil)
+	var rsvpRegistry EnableRSVP
+	if e := datastore.Get(ctx, keyRSVP, &rsvpRegistry); e != nil {
+		ctx.Errorf("Failed to get EnableRSVP: %s\n", e)
+		respond(w, false, "Oops, something went wrong.")
+		return
+	}
+	
+	guests := make([]Guest, 0, 150)
+	guestQuery := datastore.NewQuery("Guest")
+	for t := guestQuery.Run(ctx);; {
+		var guest Guest
+		_, err := t.Next(&guest)
+		if err == datastore.Done {
+            break
+        }
+        if err != nil {
+            fmt.Fprintf(w, "Datastore read failed: %s\n", err)
+            return
+        }
+		
+		guests = append(guests, guest)
+	}
+	
+	q := datastore.NewQuery("RSVP")
+	for t := q.Run(ctx);; {
+		var rsvp GuestRSVP
+		key, err := t.Next(&rsvp)
+		if err == datastore.Done {
+            break
+        }
+        if err != nil {
+            fmt.Fprintf(w, "Datastore read failed: %s\n", err)
+            return
+        }
+		if rsvp.ConfirmationSent {
+			continue
+		}
+		
+		message := "This email is to confirm your following RSVP at Di & Siyu's wedding on August 19, 2017.\n\n"
+		
+		fmt.Fprintf(w, "For guest %s %s (%s):\n", rsvp.FirstName, rsvp.LastName, rsvp.Email)
+		
+		for _, guest := range guests {
+			if (guest.FirstName == rsvp.FirstName && guest.LastName == rsvp.LastName) || (guest.GuestOf == rsvp.FirstName + " " +  rsvp.LastName) {
+				var guestType string
+				if guest.IsChildGuest {
+					guestType = "Child"
+				} else {
+					guestType = "Adult"
+				}
+				message += fmt.Sprintf("%s guest: %s %s, meal option: %s\n", guestType, guest.FirstName, guest.LastName, guest.MealOption)
+			}
+		}
+		message += "\nPlease reply if you need to change or cancel the RSVP. \n\nBest,\nDi & Siyu\n"
+		fmt.Fprintf(w, "%s\n", message)
+		// Email guest
+		msg := &mail.Message{
+			Sender:  "Di and Siyu Wedding <" + rsvpRegistry.Email + ">",
+			To:      []string{rsvp.Email},
+			Subject: "RSVP Confirmation",
+			Body:    message,
+		}
+		ctx.Infof("Sending confirmation email to %s", rsvp.Email)
+		if err := mail.Send(ctx, msg); err != nil {
+			ctx.Infof("Failed to send confirmation email to %s", rsvp.Email)
+			fmt.Fprintf(w, "Failed to send email to %s: %s\n", rsvp.Email, err)
+			return
+		} else {
+			ctx.Infof("Succeeded sending confirmation email to %s", rsvp.Email)
+			rsvp.ConfirmationSent = true
+			if _, e := datastore.Put(ctx, key, &rsvp); e != nil {
+				fmt.Fprintf(w, "Failed to write back to RSVP: %s\n", e)
+				return
+			}
+		}
+	}
+	fmt.Fprintf(w, "success!")
 }

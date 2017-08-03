@@ -9,5 +9,9 @@ handlers:
 - url: /resources/*
   static_dir: resources
 
+- url: /admin/.*
+  script: _go_app
+  login: admin
+  
 - url: /.*
   script: _go_app
