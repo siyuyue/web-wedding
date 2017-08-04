@@ -3,10 +3,11 @@ package backend
 import (
 	"appengine"
 	"appengine/datastore"
-	"appengine/mail"
+	"appengine/urlfetch"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"gopkg.in/sendgrid/sendgrid-go.v2"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -101,6 +102,7 @@ type EnableRSVP struct {
 	Enable bool
 	Email  string
 	IsProd bool
+	SendGridAPIKey string
 }
 
 type RSVPCode struct {
@@ -123,6 +125,16 @@ func respond(w http.ResponseWriter, success bool, message string) {
 		Message: message}
 	jsonString, _ := json.Marshal(resp)
 	fmt.Fprintf(w, string(jsonString))
+}
+
+func emailWithSendGrid(sg *sendgrid.SGClient, from string, to string, subject string, body string) error {
+	message := sendgrid.NewMail()
+	message.AddTo(to)
+	message.AddBcc(from)
+	message.SetFrom(from)
+	message.SetSubject(subject)
+	message.SetText(body)
+	return sg.Send(message)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -210,13 +222,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Email guest
-	msg := &mail.Message{
-		Sender:  "Di and Siyu Wedding <" + rsvpRegistry.Email + ">",
-		To:      []string{g.Email},
-		Subject: "Thank you for your RSVP to Di and Siyu's Wedding!",
-		Body:    "We look forward to seeing you on August 19, 2017.\n\nFor more information please see http://www.diandsiyu.wedding\n\nDi & Siyu",
-	}
-	if err := mail.Send(ctx, msg); err != nil {
+	sg := sendgrid.NewSendGridClientWithApiKey(rsvpRegistry.SendGridAPIKey)
+	sg.Client = urlfetch.Client(ctx)
+	if err := emailWithSendGrid(sg, rsvpRegistry.Email, g.Email, "Thank you for your RSVP to Di and Siyu's Wedding!", "We look forward to seeing you on August 19, 2017.\n\nFor more information please see http://www.diandsiyu.wedding\n\nDi & Siyu"); err != nil {
 		// Already succeeded, no need to show failure message.
 		ctx.Errorf("Failed to send email: %s\n", err)
 	}
@@ -264,7 +272,7 @@ func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 		
-		message := "This email is to confirm your following RSVP at Di & Siyu's wedding on August 19, 2017.\n\n"
+		message := "This email is to confirm your following RSVP at Di & Siyu's wedding on August 19, 2017.\n\n\n\n"
 		
 		fmt.Fprintf(w, "For guest %s %s (%s):\n", rsvp.FirstName, rsvp.LastName, rsvp.Email)
 		
@@ -276,23 +284,18 @@ func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
 				} else {
 					guestType = "Adult"
 				}
-				message += fmt.Sprintf("%s guest: %s %s, meal option: %s\n", guestType, guest.FirstName, guest.LastName, guest.MealOption)
+				message += fmt.Sprintf("%s guest: %s %s, meal option: %s\n\n", guestType, guest.FirstName, guest.LastName, guest.MealOption)
 			}
 		}
-		message += "\nPlease reply if you need to change or cancel the RSVP. \n\nBest,\nDi & Siyu\n"
+		message += "\nPlease reply if you need to change or cancel the RSVP. \n\n\n\nBest,\n\nDi & Siyu\n\n"
 		fmt.Fprintf(w, "%s\n", message)
 		// Email guest
-		msg := &mail.Message{
-			Sender:  "Di and Siyu Wedding <" + rsvpRegistry.Email + ">",
-			To:      []string{rsvp.Email},
-			Subject: "RSVP Confirmation",
-			Body:    message,
-		}
 		ctx.Infof("Sending confirmation email to %s", rsvp.Email)
-		if err := mail.Send(ctx, msg); err != nil {
+		sg := sendgrid.NewSendGridClientWithApiKey(rsvpRegistry.SendGridAPIKey)
+		sg.Client = urlfetch.Client(ctx)
+		if err := emailWithSendGrid(sg, rsvpRegistry.Email, rsvp.Email, "RSVP Confirmation", message); err != nil {
 			ctx.Infof("Failed to send confirmation email to %s", rsvp.Email)
 			fmt.Fprintf(w, "Failed to send email to %s: %s\n", rsvp.Email, err)
-			return
 		} else {
 			ctx.Infof("Succeeded sending confirmation email to %s", rsvp.Email)
 			rsvp.ConfirmationSent = true
