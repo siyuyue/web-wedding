@@ -2,12 +2,12 @@ $(document).ready(function() {
     $('#fullpage').fullpage({
         //Navigation
         menu: '#menu',
-        anchors: ['welcome', 'weddingDay', 'gifts', 'rsvp'],
+        anchors: ['welcome', 'weddingDay', 'gifts'],
         navigation: false,
         scrollOverflow: true,
 
         verticalCentered: true,
-        sectionsColor: ['', '#FFFFFF', '#FFFFF0', '#F5F5DC'],
+        sectionsColor: ['', '#FFFFFF', '#FFFFF0'],
         recordHistory: false,
     });
 
